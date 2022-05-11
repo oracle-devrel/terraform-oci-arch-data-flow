@@ -1,0 +1,169 @@
+## Copyright © 2020, Oracle and/or its affiliates.
+## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
+
+    title: "Data Flow"
+    stackDescription: Deploy the required infrastructure to use DataFlow
+    schemaVersion: 1.1.0
+    version: "20190404"
+    locale: "en"
+
+    variableGroups:
+    - title: General Configuration
+      visible: false
+      variables:
+      - tenancy_ocid
+
+    - title: General Configuration
+      visible: true
+      variables:
+      - compartment_ocid
+      - region
+      - deploy_demo_application
+
+    - title: Bucket Configuration
+      visible: true
+      variables:
+      - dataflow_warehouse_bucket_name
+      - dataflow_warehouse_bucket_access_type
+      - dataflow_warehouse_bucket_storage_tier
+      - dataflow_logs_bucket_name
+      - dataflow_logs_bucket_access_type
+      - dataflow_logs_bucket_storage_tier
+
+    - title: Admininistrators Group - IAM Configuration
+      visible: true
+      variables:
+      - dataflow_admins_group_name
+      - dataflow_admins_group_description
+      - dataflow_admins_policy_name
+      - dataflow_admins_policy_description
+
+    - title: Users Group - IAM Configuration
+      visible: true
+      variables:
+      - dataflow_users_group_name
+      - dataflow_users_group_description
+      - dataflow_users_policy_name
+      - dataflow_users_policy_description
+
+    variables:
+
+      deploy_demo_application:
+        type: boolean
+        required: true
+        title: Deploy demo application?
+        description: Deploys a demo Python Spark application
+
+      compartment_ocid:
+        type: oci:identity:compartment:id
+        required: true
+        title: Compartment
+        description: Compartment where you want to create the solution resources
+
+      region:
+        type: oci:identity:region:name
+        required: true
+        title: Region
+        description: Region where you want to deploy the resources defined by this stack
+
+      dataflow_warehouse_bucket_name:
+        type: string
+        required: true
+        title: "Bucket Name"
+        description: "Name of the bucket"
+
+      dataflow_warehouse_bucket_access_type:
+        type: enum
+        required: true
+        title: "Access Type"
+        description: "Choose the type of access for the backup bucket"
+        enum:
+          - "NoPublicAccess"
+          - "Public"
+
+      dataflow_warehouse_bucket_storage_tier:
+        type: enum
+        required: true
+        title: "Storage Tier"
+        description: "Select the tier for the backup bucket"
+        enum:
+          - "Standard"
+
+      dataflow_logs_bucket_name:
+        type: string
+        required: true
+        title: "Bucket Name"
+        description: "Name of the bucket"
+
+      dataflow_logs_bucket_access_type:
+        type: enum
+        required: true
+        title: "Access Type"
+        description: "Choose the type of access for the backup bucket"
+        enum:
+          - "NoPublicAccess"
+          - "Public"
+
+      dataflow_logs_bucket_storage_tier:
+        type: enum
+        required: true
+        title: "Storage Tier"
+        description: "Select the tier for the backup bucket"
+        enum:
+          - "Standard"
+        
+      dataflow_admins_group_name:
+        type: string
+        required: true
+        title: "Group Name"
+        description: "Name of the Data Flow administrator group "
+        default: "dataflow_admins"
+
+      dataflow_admins_group_description:
+        type: string
+        required: true
+        title: "Group Description"
+        description: "Data Flow administrators group Description"
+        default: "Data Flow administrators"
+
+      dataflow_admins_policy_name:
+        type: string
+        required: true
+        title: "Policy Name"
+        description: "Data Flow administrator Policy name"
+        default: "DataFlowAdminsPolicy"
+
+      dataflow_admins_policy_description:
+        type: string
+        required: true
+        title: "Policy Description"
+        description: "Description of the Data Flow administrator policy"
+        default: "Policy that grants the necessary Data Flow administrator rights"
+
+      dataflow_users_group_name:
+        type: string
+        required: true
+        title: "Group Name"
+        description: "Name of the Data Flow users group "
+        default: "dataflow_users"
+
+      dataflow_users_group_description:
+        type: string
+        required: true
+        title: "Group Description"
+        description: "Data Flow users group Description"
+        default: "dataflow_users"
+
+      dataflow_users_policy_name:
+        type: string
+        required: true
+        title: "Policy Name"
+        description: "Data Flow users Policy name"
+        default: "DataFlowUsersPolicy"
+
+      dataflow_users_policy_description:
+        type: string
+        required: true
+        title: "Policy Description"
+        description: "Description of the Data Flow users policy"
+        default: "Policy that grants the necessary Data Flow users rights"
