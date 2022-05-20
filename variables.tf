@@ -21,20 +21,20 @@ variable "dataflow_warehouse_bucket_name" {
   default = "dataflow-warehouse"
 }
 variable "dataflow_warehouse_bucket_access_type" {
-  default = ""
+  default = "NoPublicAccess"
 }
 variable "dataflow_warehouse_bucket_storage_tier" {
-  default = ""
+  default = "Standard"
 }
 
 variable "dataflow_logs_bucket_name" {
   default = "dataflow-logs"
 }
 variable "dataflow_logs_bucket_access_type" {
-  default = ""
+  default = "NoPublicAccess"
 }
 variable "dataflow_logs_bucket_storage_tier" {
-  default = ""
+  default = "Standard"
 }
 
 variable "dataflow_admins_group_name" {

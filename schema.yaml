@@ -1,8 +1,8 @@
 ## Copyright © 2020, Oracle and/or its affiliates.
 ## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
 
-    title: "Data Flow"
-    stackDescription: Deploy the required infrastructure to use DataFlow
+    title: "OCI Data Flow"
+    stackDescription: Deploy OCI Data Flow and related resources
     schemaVersion: 1.1.0
     version: "20190404"
     locale: "en"
@@ -12,6 +12,7 @@
       visible: false
       variables:
       - tenancy_ocid
+      - release
 
     - title: General Configuration
       visible: true
@@ -19,6 +20,7 @@
       - compartment_ocid
       - region
       - deploy_demo_application
+      - show_advanced
 
     - title: Bucket Configuration
       visible: true
@@ -30,7 +32,7 @@
       - dataflow_logs_bucket_access_type
       - dataflow_logs_bucket_storage_tier
 
-    - title: Admininistrators Group - IAM Configuration
+    - title: Administrators Group - IAM Configuration
       visible: true
       variables:
       - dataflow_admins_group_name
@@ -46,8 +48,28 @@
       - dataflow_users_policy_name
       - dataflow_users_policy_description
 
-    variables:
+    - title: Advanced Configuration
+      visible: show_advanced
+      variables:
+      - application_file_uri
+      - arguments
+      - application_archive_uri
+      - application_display_name
+      - application_driver_shape
+      - application_executor_shape
+      - application_language
+      - application_num_executors
+      - application_spark_version
 
+    variables:
+  
+      show_advanced:
+        type: boolean
+        title: "Show advanced options?"
+        description: "Shows advanced options."
+        visible: true
+        default: false
+      
       deploy_demo_application:
         type: boolean
         required: true
@@ -117,53 +139,102 @@
         required: true
         title: "Group Name"
         description: "Name of the Data Flow administrator group "
-        default: "dataflow_admins"
 
       dataflow_admins_group_description:
         type: string
         required: true
         title: "Group Description"
         description: "Data Flow administrators group Description"
-        default: "Data Flow administrators"
 
       dataflow_admins_policy_name:
         type: string
         required: true
         title: "Policy Name"
         description: "Data Flow administrator Policy name"
-        default: "DataFlowAdminsPolicy"
 
       dataflow_admins_policy_description:
         type: string
         required: true
         title: "Policy Description"
         description: "Description of the Data Flow administrator policy"
-        default: "Policy that grants the necessary Data Flow administrator rights"
 
       dataflow_users_group_name:
         type: string
         required: true
         title: "Group Name"
-        description: "Name of the Data Flow users group "
-        default: "dataflow_users"
+        description: "Name of the Data Flow users group"
 
       dataflow_users_group_description:
         type: string
         required: true
         title: "Group Description"
         description: "Data Flow users group Description"
-        default: "dataflow_users"
 
       dataflow_users_policy_name:
         type: string
         required: true
         title: "Policy Name"
         description: "Data Flow users Policy name"
-        default: "DataFlowUsersPolicy"
 
       dataflow_users_policy_description:
         type: string
         required: true
         title: "Policy Description"
         description: "Description of the Data Flow users policy"
-        default: "Policy that grants the necessary Data Flow users rights"
+
+      application_file_uri:
+        type: string
+        title: "Application file URI"
+        visible:
+            and:
+              - not:
+                - deploy_demo_application
+              - show_advanced
+
+      arguments:
+        type: string
+        title: "Application arguments"
+        visible:
+            and:
+              - not:
+                - deploy_demo_application 
+              - show_advanced
+
+      application_archive_uri:
+        type: string
+        title: "Application archive URI"
+        visible: show_advanced
+
+      application_display_name:
+        type: string
+        title: "Application display name"
+        visible: show_advanced
+
+      application_driver_shape:
+        type: oci:core:instanceshape:name
+        title: "Application driver shape"
+        visible: show_advanced
+        dependsOn:
+          compartmentId: ${compartment_ocid}
+
+      application_executor_shape:
+        type: oci:core:instanceshape:name
+        title: "Application executor shape"
+        visible: show_advanced
+        dependsOn:
+          compartmentId: ${compartment_ocid}
+
+      application_language:
+        type: string
+        title: "Application language"
+        visible: show_advanced
+
+      application_num_executors:
+        type: string
+        title: "Number of application executors"
+        visible: show_advanced
+
+      application_spark_version:
+        type: string
+        title: "Spark version"
+        visible: show_advanced
